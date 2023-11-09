@@ -5,25 +5,17 @@ import {
 } from "react-icons/pi";
 import { login, logout, onUserStateChange } from "../api/firebase";
 import { useEffect, useState } from "react";
-import { User } from "firebase/auth";
+import { type User as UserType } from "firebase/auth";
+import User from "./User";
 
 export default function Header() {
-  const [user, setUser] = useState<User | null>(null);
-  const handleLogin = () => {
-    login()
-      .then((user) => setUser(user))
-      .catch(() => setUser(null)); //TODO: 토스트 연결해보기
-  };
-
-  const handleLogout = () => {
-    logout().then(() => setUser(null));
-  };
+  const [user, setUser] = useState<UserType | null>(null);
+  const [admin, setAdmin] = useState<boolean>(false);
 
   useEffect(() => {
-    onUserStateChange((user) => {
-      setUser(user);
-    });
+    onUserStateChange((user) => setUser(user));
   }, []);
+
   return (
     <header className="header">
       <Link to="/" className="logo">
@@ -34,22 +26,28 @@ export default function Header() {
         <li>
           <Link to="/products">Products</Link>
         </li>
-        <li>
-          <Link to="/products/new">
-            <PiPencilSimpleLineBold />
-          </Link>
-        </li>
-        <li>
-          <Link to="/carts">Carts</Link>
-        </li>
+        {user && (
+          <>
+            {admin && (
+              <li>
+                <Link to="/products/new">
+                  <PiPencilSimpleLineBold />
+                </Link>
+              </li>
+            )}
+            <li>
+              <Link to="/carts">Carts</Link>
+            </li>
+          </>
+        )}
       </ul>
-      {user?.displayName && <p>{user.displayName}</p>}
+      {user && <User user={user} />}
       {user === null ? (
-        <button type="button" className="btn-login" onClick={handleLogin}>
+        <button type="button" className="btn-login" onClick={login}>
           Login
         </button>
       ) : (
-        <button type="button" className="btn-login" onClick={handleLogout}>
+        <button type="button" className="btn-login" onClick={logout}>
           Logout
         </button>
       )}
