@@ -3,53 +3,44 @@ import {
   PiPencilSimpleLineBold,
   PiShoppingCartSimpleFill,
 } from "react-icons/pi";
-import { login, logout, onUserStateChange } from "../api/firebase";
-import { useEffect, useState } from "react";
-import { type User as UserType } from "firebase/auth";
 import User from "./User";
+import Button from "./ui/Button";
+import { useAuthContext } from "../context/AuthContext";
 
 export default function Header() {
-  const [user, setUser] = useState<UserType | null>(null);
-  const [admin, setAdmin] = useState<boolean>(false);
-
-  useEffect(() => {
-    onUserStateChange((user) => setUser(user));
-  }, []);
-
+  const { user, login, logout } = useAuthContext();
   return (
     <header className="header">
       <Link to="/" className="logo">
         <PiShoppingCartSimpleFill size={36} />
-        <h1>Shoppy</h1>
+        <h1>SHOPPY</h1>
       </Link>
       <ul className="gnb">
         <li>
           <Link to="/products">Products</Link>
         </li>
+        {user && user.isAdmin && (
+          <li>
+            <Link to="/products/new">
+              <PiPencilSimpleLineBold />
+            </Link>
+          </li>
+        )}
         {user && (
-          <>
-            {admin && (
-              <li>
-                <Link to="/products/new">
-                  <PiPencilSimpleLineBold />
-                </Link>
-              </li>
-            )}
-            <li>
-              <Link to="/carts">Carts</Link>
-            </li>
-          </>
+          <li>
+            <Link to="/carts">Carts</Link>
+          </li>
         )}
       </ul>
       {user && <User user={user} />}
       {user === null ? (
-        <button type="button" className="btn-login" onClick={login}>
+        <Button className="btn btn-login" onClick={login}>
           Login
-        </button>
+        </Button>
       ) : (
-        <button type="button" className="btn-login" onClick={logout}>
+        <Button className="btn btn-login" onClick={logout}>
           Logout
-        </button>
+        </Button>
       )}
     </header>
   );

@@ -25,20 +25,23 @@ code {
 }
 
 .logo {
-  @apply flex justify-start items-center gap-2;
+  @apply flex justify-start items-center gap-2 text-primary;
+}
+.logo svg {
+  @apply fill-current;
+}
+.logo h1 {
+  @apply text-4xl font-bold text-inherit;
 }
 
 .user {
+  @apply shrink-0;
 }
 .user__profile {
   @apply inline-block overflow-hidden w-10 h-10 rounded-full;
 }
 .user__name {
-  @apply hidden md:inline-block ml-2 align-middle;
-}
-
-.logo h1 {
-  @apply text-4xl font-extrabold text-primary;
+  @apply hidden md:inline-block  ml-2 align-middle;
 }
 
 .gnb {
@@ -47,4 +50,15 @@ code {
 
 .container {
   @apply w-full max-w-7xl mx-auto pt-40 px-5;
+}
+
+.btn {
+  @apply h-10 px-3 rounded text-base font-medium transition-opacity;
+}
+.btn:hover {
+  @apply opacity-80;
+}
+
+.btn-login {
+  @apply bg-primary text-white;
 }

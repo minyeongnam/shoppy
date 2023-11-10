@@ -1,4 +1,4 @@
-import { type User as UserType } from "@firebase/auth";
+import { UserType } from "../type/user";
 
 interface UserProps {
   user: UserType;

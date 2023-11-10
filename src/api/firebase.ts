@@ -5,10 +5,11 @@ import {
   signInWithPopup,
   GoogleAuthProvider,
   signOut,
-  User,
   onAuthStateChanged,
+  User,
 } from "firebase/auth";
-import { getDatabase } from "firebase/database";
+import { child, get, getDatabase, ref } from "firebase/database";
+import { UserType } from "../type/user";
 
 const firebaseConfig = {
   apiKey: process.env.REACT_APP_FIREBASE_APIKEY,
@@ -28,5 +29,20 @@ export const login = () =>
 
 export const logout = () => signOut(auth).catch((error) => console.log(error));
 
-export const onUserStateChange = (callback: (user: User | null) => void) =>
-  onAuthStateChanged(auth, (user: User | null) => callback(user));
+export const onUserStateChange = (callback: (user: UserType | null) => void) =>
+  onAuthStateChanged(auth, async (user: User | null) => {
+    const updateUser = user ? await admimUser(user) : null;
+    callback(updateUser);
+  });
+
+const admimUser = async (user: User) => {
+  const dbRef = ref(database);
+  return get(child(dbRef, `admins`)).then((snapshot) => {
+    if (snapshot.exists()) {
+      const admins = snapshot.val();
+      const isAdmin = user.uid.includes(admins);
+      return { ...user, isAdmin };
+    }
+    return { ...user, isAdmin: false };
+  });
+};
