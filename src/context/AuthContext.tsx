@@ -1,23 +1,23 @@
-// https://fathory.tistory.com/150
-
 import {
-  ReactNode,
   createContext,
   useContext,
   useEffect,
   useState,
+  ReactNode,
 } from "react";
 import { UserType } from "../type/user";
-import { onUserStateChange } from "../api/firebase";
+import { login, logout, onUserStateChange } from "../api/firebase";
+import { UserCredential } from "firebase/auth";
 
 interface AuthContextProps {
   user: UserType | null;
-  login: () => void;
-  logout: () => void;
+  login: () => Promise<void | UserCredential>;
+  logout: () => Promise<void>;
 }
+
 const AuthContext = createContext<AuthContextProps | null>(null);
 
-export function AuthContextProvider({ children }) {
+export function AuthContextProvider({ children }: { children: ReactNode }) {
   const [user, setUser] = useState<UserType | null>(null);
 
   useEffect(() => {
@@ -34,5 +34,7 @@ export function AuthContextProvider({ children }) {
 }
 
 export function useAuthContext() {
-  return useContext(AuthContext);
+  const state = useContext(AuthContext);
+  if (!state) throw new Error("Provider not found");
+  return state;
 }

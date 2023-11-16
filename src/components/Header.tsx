@@ -9,6 +9,7 @@ import { useAuthContext } from "../context/AuthContext";
 
 export default function Header() {
   const { user, login, logout } = useAuthContext();
+
   return (
     <header className="header">
       <Link to="/" className="logo">
@@ -34,11 +35,11 @@ export default function Header() {
       </ul>
       {user && <User user={user} />}
       {user === null ? (
-        <Button className="btn btn-login" onClick={login}>
+        <Button className="btn btn--primary" onClick={login}>
           Login
         </Button>
       ) : (
-        <Button className="btn btn-login" onClick={logout}>
+        <Button className="btn btn--primary" onClick={logout}>
           Logout
         </Button>
       )}
