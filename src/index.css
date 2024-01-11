@@ -50,7 +50,7 @@ code {
 }
 
 .container {
-  @apply w-full max-w-7xl mx-auto pt-32 px-5 pb-10;
+  @apply w-full max-w-7xl mx-auto pt-20 pb-10;
 }
 
 .page-title {
@@ -103,6 +103,93 @@ code {
   @apply bg-primary text-white;
 }
 
+.selectbox {
+  @apply flex items-center gap-2;
+}
+.selectbox .label {
+  @apply text-base;
+}
+
+.selectbox .select {
+  @apply grow border-x border-y border-gray-200 h-10 px-2 outline-none;
+}
+
 .message {
   @apply mt-10 text-center;
+}
+
+.mainvisual {
+  @apply relative flex justify-center items-center flex-col overflow-hidden bg-mainvisual-03 bg-primary bg-no-repeat bg-center bg-cover bg-blend-multiply bg-opacity-60;
+  height: 400px;
+}
+
+.mainvisual .mainvisual__title {
+  @apply text-6xl font-light text-white;
+}
+.mainvisual .mainvisual__subtitle {
+  @apply text-lg mt-2 font-extralight text-white opacity-80;
+}
+
+.products {
+  @apply p-5;
+}
+
+.products__list {
+  @apply grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-5;
+}
+
+.products__item {
+  @apply rounded-md shadow-md;
+}
+
+.products__item .item__image {
+  @apply w-full h-3/4  overflow-hidden;
+}
+
+.products__item .item__image img {
+  @apply w-full h-full object-cover transition-transform duration-500 hover:scale-105;
+}
+
+.products__item .item__info {
+  @apply flex flex-col p-3;
+}
+
+.products__item .info__title {
+  @apply text-lg font-semibold truncate;
+}
+
+.products__item .info__cate {
+  @apply text-sm font-semibold truncate;
+}
+
+.products__item .info__price {
+  @apply text-xl font-bold text-right;
+}
+
+.products__detail {
+  @apply flex flex-col md:flex-row gap-5 w-full p-5;
+}
+
+.products__detail .item__image {
+  @apply basis-7/12 w-full;
+}
+
+.products__detail .item__info {
+  @apply flex flex-col basis-5/12 gap-3 w-full;
+}
+
+.products__detail .info__title {
+  @apply text-3xl font-bold truncate;
+}
+
+.products__detail .info__cate {
+  @apply text-sm font-semibold truncate;
+}
+
+.products__detail .info__price {
+  @apply text-2xl font-bold text-right mt-3;
+}
+
+.products__detail .btn--cart {
+  @apply w-full;
 }

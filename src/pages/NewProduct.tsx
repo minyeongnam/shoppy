@@ -52,7 +52,7 @@ export default function NewProduct() {
       );
   };
   return (
-    <div className="board">
+    <div className="page-newproduct">
       <h2 className="page-title">신규 제품 등록</h2>
       {sucess && <p className="message">{sucess}</p>}
       {image && (

@@ -5,7 +5,7 @@ import App from "./App";
 import reportWebVitals from "./reportWebVitals";
 import { RouterProvider, createBrowserRouter } from "react-router-dom";
 import NotFound from "./pages/NotFound";
-import Home from "./pages/Home";
+import Main from "./pages/Main";
 import AllProduct from "./pages/AllProduct";
 import NewProduct from "./pages/NewProduct";
 import ProductDetail from "./pages/ProductDetail";
@@ -24,7 +24,7 @@ const router = createBrowserRouter([
     children: [
       {
         index: true,
-        element: <Home />,
+        element: <Main />,
       },
       {
         path: "products",
