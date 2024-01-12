@@ -13,7 +13,7 @@ export default function Products() {
       {isLoading && <p>isLoading</p>}
       {error && <p>error</p>}
       <ul className="products__list">
-        {data !== undefined &&
+        {data &&
           data.map((product: ResponseProduct) => (
             <ProductItem key={product.productId} product={product} />
           ))}

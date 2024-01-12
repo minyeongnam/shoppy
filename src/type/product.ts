@@ -24,3 +24,12 @@ export interface ResponseProduct {
   productId: string;
   url: string;
 }
+
+export interface CartItem {
+  productId: string;
+  url: string;
+  name: string;
+  price: string;
+  option: string;
+  quantity: number;
+}

@@ -11,6 +11,7 @@ import { UserCredential } from "firebase/auth";
 
 interface AuthContextProps {
   user: UserType | null;
+  uid: string | null;
   login: () => Promise<void | UserCredential>;
   logout: () => Promise<void>;
 }
@@ -27,7 +28,9 @@ export function AuthContextProvider({ children }: { children: ReactNode }) {
   }, []);
 
   return (
-    <AuthContext.Provider value={{ user, login, logout }}>
+    <AuthContext.Provider
+      value={{ user, uid: user && user.uid, login, logout }}
+    >
       {children}
     </AuthContext.Provider>
   );

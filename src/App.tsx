@@ -10,7 +10,7 @@ function App() {
     <QueryClientProvider client={queryClient}>
       <AuthContextProvider>
         <Header />
-        <section className="container">
+        <section className="page-container">
           <Outlet />
         </section>
       </AuthContextProvider>

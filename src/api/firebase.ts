@@ -8,9 +8,9 @@ import {
   onAuthStateChanged,
   User,
 } from "firebase/auth";
-import { child, get, getDatabase, ref, set } from "firebase/database";
+import { child, get, getDatabase, ref, remove, set } from "firebase/database";
 import { UserType } from "../type/user";
-import { Product, ResponseProduct } from "../type/product";
+import { CartItem, Product, ResponseProduct } from "../type/product";
 import { v4 as uuidV4 } from "uuid";
 
 const firebaseConfig = {
@@ -67,8 +67,32 @@ export const getProducts = async (): Promise<ResponseProduct[]> => {
   return get(child(dbRef, `products`))
     .then((snapshot) => {
       if (snapshot.exists()) {
-        return Object.values(snapshot.val()); // 배열안에 value들만 가져오기 위해 Object.values 사용
+        return Object.values(snapshot.val()) || []; // 배열안에 value들만 가져오기 위해 Object.values 사용
       }
     })
     .catch((error) => error);
+};
+
+export const getCart = async (userId: string): Promise<CartItem[]> => {
+  if (userId === "") {
+    return [];
+  }
+  const dbRef = ref(database);
+  return get(child(dbRef, `carts/${userId}`))
+    .then((snapshot) => {
+      if (snapshot.exists()) {
+        return Object.values(snapshot.val()) || [];
+      }
+    })
+    .catch((error) => error);
+};
+
+export const addOrUpdateToCart = async (userId: string, product: CartItem) => {
+  const dbRef = ref(database);
+  return set(child(dbRef, `carts/${userId}/${product.productId}`), product);
+};
+
+export const removeFromCart = async (userId: string, productId: string) => {
+  const dbRef = ref(database);
+  return remove(child(dbRef, `carts/${userId}/${productId}`));
 };

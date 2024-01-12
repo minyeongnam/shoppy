@@ -6,6 +6,7 @@ import {
 import User from "./User";
 import Button from "./ui/Button";
 import { useAuthContext } from "../context/AuthContext";
+import CartStatus from "./CartStatus";
 
 export default function Header() {
   const { user, login, logout } = useAuthContext();
@@ -29,7 +30,9 @@ export default function Header() {
         )}
         {user && (
           <li>
-            <Link to="/carts">Carts</Link>
+            <Link to="/carts">
+              <CartStatus />
+            </Link>
           </li>
         )}
       </ul>
