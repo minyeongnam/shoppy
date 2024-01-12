@@ -7,7 +7,7 @@ export default function CartStatus() {
   const { uid } = useAuthContext();
   const { data: products } = useQuery({
     queryKey: ["carts"],
-    queryFn: () => getCart(uid ?? ""),
+    queryFn: () => getCart(uid),
   });
   return (
     <div className="cart-status">

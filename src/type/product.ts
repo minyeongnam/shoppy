@@ -25,7 +25,7 @@ export interface ResponseProduct {
   url: string;
 }
 
-export interface CartItem {
+export interface CartItemType {
   productId: string;
   url: string;
   name: string;

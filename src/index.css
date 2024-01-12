@@ -204,3 +204,65 @@ code {
 .products__detail .btn--cart {
   @apply w-full;
 }
+
+.cart__list {
+  @apply p-5;
+}
+
+.cart__item {
+  @apply flex;
+}
+
+.cart__item + .cart__item {
+  @apply mt-5;
+}
+.cart__item .item__image {
+  @apply w-60 h-60 overflow-hidden;
+}
+.cart__item .item__image img {
+  @apply w-full h-full object-cover;
+}
+
+.cart__item .item__info {
+  @apply flex flex-col justify-center grow p-5 w-full;
+}
+
+.cart__item .info__title {
+  @apply text-xl;
+}
+
+.cart__item .info__option {
+  @apply text-primary text-base font-bold;
+}
+
+.cart__item .info__quantity {
+  @apply flex items-center gap-2 mt-5 ml-auto text-lg;
+}
+
+.cart__item .info__quantity svg {
+  @apply w-5 h-5 transition-colors hover:text-primary;
+}
+
+.cart__item .info__price {
+  @apply mt-2 ml-auto text-xl font-bold;
+}
+
+.cart__price {
+  @apply flex justify-between items-center gap-5 px-5;
+}
+.cart__price svg {
+  @apply shrink-0;
+}
+
+.price-card {
+  @apply grow bg-gray-50 p-5 rounded-2xl text-center;
+}
+.price-card .card__text {
+  @apply block text-sm;
+}
+.price-card .card__price {
+  @apply block text-primary text-lg;
+}
+.cart__sumbit {
+  @apply w-full mx-5;
+}

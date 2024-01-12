@@ -10,7 +10,7 @@ import {
 } from "firebase/auth";
 import { child, get, getDatabase, ref, remove, set } from "firebase/database";
 import { UserType } from "../type/user";
-import { CartItem, Product, ResponseProduct } from "../type/product";
+import { CartItemType, Product, ResponseProduct } from "../type/product";
 import { v4 as uuidV4 } from "uuid";
 
 const firebaseConfig = {
@@ -73,8 +73,10 @@ export const getProducts = async (): Promise<ResponseProduct[]> => {
     .catch((error) => error);
 };
 
-export const getCart = async (userId: string): Promise<CartItem[]> => {
-  if (userId === "") {
+export const getCart = async (
+  userId: string | null
+): Promise<CartItemType[]> => {
+  if (!userId) {
     return [];
   }
   const dbRef = ref(database);
@@ -87,7 +89,10 @@ export const getCart = async (userId: string): Promise<CartItem[]> => {
     .catch((error) => error);
 };
 
-export const addOrUpdateToCart = async (userId: string, product: CartItem) => {
+export const addOrUpdateToCart = async (
+  userId: string,
+  product: CartItemType
+) => {
   const dbRef = ref(database);
   return set(child(dbRef, `carts/${userId}/${product.productId}`), product);
 };
