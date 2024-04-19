@@ -2,8 +2,8 @@ import { useLocation } from "react-router-dom";
 import { formatComma } from "../util/util";
 import { ChangeEvent, useState } from "react";
 import Button from "../components/ui/Button";
-import { addOrUpdateToCart } from "../api/firebase";
 import { useAuthContext } from "../context/AuthContext";
+import useCarts from "../hooks/useCarts";
 
 export default function ProductDetail() {
   const {
@@ -11,6 +11,9 @@ export default function ProductDetail() {
   } = useLocation();
   const { uid } = useAuthContext();
   const [selectedOption, setSelectedOption] = useState(options && options[0]);
+  const {
+    addOrUpdateToCart: { mutate: addOrUpdateToCart },
+  } = useCarts();
 
   const handleSelect = (e: ChangeEvent<HTMLSelectElement>) =>
     setSelectedOption(e.target.value);
@@ -27,9 +30,10 @@ export default function ProductDetail() {
       option: selectedOption,
       quantity: 1,
     };
-    addOrUpdateToCart(uid, product)
-      .then(() => alert("성공"))
-      .catch(() => alert("실패"));
+    addOrUpdateToCart(product, {
+      onSuccess: () => alert("장바구니에 추가되었습니다."),
+      onError: () => alert("장바구니 추가에 실패했습니다. 다시 시도해주세요."),
+    });
   };
   return (
     <div className="page-contents">

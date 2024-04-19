@@ -5,8 +5,9 @@ import {
 } from "react-icons/ai";
 import { CartItemType } from "../type/product";
 import { formatComma } from "../util/util";
-import { addOrUpdateToCart, removeFromCart } from "../api/firebase";
+
 import { useAuthContext } from "../context/AuthContext";
+import useCarts from "../hooks/useCarts";
 
 interface CartItemProps {
   product: CartItemType;
@@ -17,24 +18,29 @@ export default function CartItem({
   product: { url, name, price, option, quantity, productId },
 }: CartItemProps) {
   const { uid } = useAuthContext();
+  const {
+    addOrUpdateToCart: { mutate: addOrUpdateToCart },
+    removeFromCart: { mutate: removeFromCart },
+  } = useCarts();
+
   const handlePlus = () => {
     if (!uid) {
       return alert("로그인이 필요합니다.");
     }
-    addOrUpdateToCart(uid, { ...product, quantity: quantity + 1 });
+    addOrUpdateToCart({ ...product, quantity: quantity + 1 });
   };
   const handleMinus = () => {
     if (!uid) {
       return alert("로그인이 필요합니다.");
     }
     if (quantity < 2) return;
-    addOrUpdateToCart(uid, { ...product, quantity: quantity - 1 });
+    addOrUpdateToCart({ ...product, quantity: quantity - 1 });
   };
   const handleDelete = () => {
     if (!uid) {
       return alert("로그인이 필요합니다.");
     }
-    removeFromCart(uid, productId);
+    removeFromCart(productId);
   };
   return (
     <li className="cart__item">

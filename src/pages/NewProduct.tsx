@@ -2,7 +2,7 @@ import { uploadImage } from "../api/uploader";
 import Button from "../components/ui/Button";
 import { ChangeEvent, FormEvent, useRef, useState } from "react";
 import { Product } from "../type/product";
-import { addNewProduct } from "../api/firebase";
+import useProducts from "../hooks/useProcuts";
 
 export default function NewProduct() {
   const initialData: Product = {
@@ -18,6 +18,9 @@ export default function NewProduct() {
   const [isUpload, setIsUpload] = useState<boolean>(false);
   const [sucess, setSucess] = useState<string | null>(null);
   let inputFileRef = useRef<HTMLInputElement | null>(null);
+  const {
+    addProduct: { mutate },
+  } = useProducts();
 
   const handleChangeInput = (e: ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -35,24 +38,28 @@ export default function NewProduct() {
     setIsUpload(true);
     image &&
       uploadImage(image).then((url) =>
-        addNewProduct(newProduct, url)
-          .then(() => {
-            setSucess("✅ 제품 등록에 성공했습니다.");
-            setNewProduct(() => initialData);
-            setImage(null);
-            if (inputFileRef.current) {
-              inputFileRef.current.value = "";
-            }
-          })
-          .catch(() => {
-            setSucess("❌ 제품 등록에 실패했습니다.");
-          })
-          .finally(() => {
-            setIsUpload(false);
-            setTimeout(() => {
-              setSucess(null);
-            }, 4000);
-          })
+        mutate(
+          { product: newProduct, url },
+          {
+            onSuccess: () => {
+              setSucess("✅ 제품 등록에 성공했습니다.");
+              setNewProduct(() => initialData);
+              setImage(null);
+              if (inputFileRef.current) {
+                inputFileRef.current.value = "";
+              }
+            },
+            onError: () => {
+              setSucess("❌ 제품 등록에 실패했습니다.");
+            },
+            onSettled: () => {
+              setIsUpload(false);
+              setTimeout(() => {
+                setSucess(null);
+              }, 4000);
+            },
+          }
+        )
       );
   };
   return (

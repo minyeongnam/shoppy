@@ -83,8 +83,9 @@ export const getCart = async (
   return get(child(dbRef, `carts/${userId}`))
     .then((snapshot) => {
       if (snapshot.exists()) {
-        return Object.values(snapshot.val()) || [];
+        return Object.values(snapshot.val());
       }
+      return [];
     })
     .catch((error) => error);
 };
